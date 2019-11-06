@@ -5,11 +5,15 @@
 /.pnp
 .pnp.js
 
+# api keys
+.env
+
 # testing
 /coverage
 
 # production
 /build
+/src/apiKey.tsx
 
 # misc
 .DS_Store
