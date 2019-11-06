@@ -40,7 +40,8 @@ const Menu: React.SFC<MenuProps> = () => {
       const startTime = Date.now() - AppState.runningTime;
       timerIdRef.current = setInterval(() => {
         dispatch({ type: "COUNT", payload: Date.now() - startTime })
-        dispatch({ type: "MAP_POSITIONS", payload: AppState.currentPosition })
+        const transformedPosition = { lat: AppState.currentPosition.latitude, lng: AppState.currentPosition.longitude }
+        dispatch({ type: "MAP_POSITIONS", payload: transformedPosition })
       }, 1000);
       dispatch({ type: "COUNTING_STARTED", payload: true });
     }
