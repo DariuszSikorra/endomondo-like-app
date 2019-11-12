@@ -1,14 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {AppProvider} from "./context/context"
-import './index.scss';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.scss";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { AppProvider } from "./context/context";
 
 ReactDOM.render(
   <AppProvider>
-    <App />
+    <App />{" "}
   </AppProvider>,
   document.getElementById("root")
 );

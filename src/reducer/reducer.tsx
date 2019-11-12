@@ -5,6 +5,7 @@ type Action =
   | { type: "MAP_POSITIONS"; payload: any }
   | { type: "COUNTING_STARTED"; payload: any }
   | { type: "COUNT"; payload: number}
+  | { type: "MAP_DISTANCE"; payload: number}
 
   
 export type Dispatch = (action: Action) => void;
@@ -21,6 +22,8 @@ export const reducer = (state: AppState, action: Action) => {
       return { ...state, countingStarted: action.payload };
     case "COUNT":
       return { ...state, runningTime: action.payload };
+    case "MAP_DISTANCE":
+      return { ...state, distance: state.distance + action.payload };
     default:
       return state;
   }

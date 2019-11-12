@@ -1,18 +1,17 @@
 import React from "react";
+import { GoogleApiWrapper } from "google-maps-react";
 
 import MapWrapper from "./MapWrapper"
 
-export type MapContainerProps = {};
 
-const MapContainer: React.SFC<MapContainerProps> = props => {
-  
-
+const MapContainer = () => {
   return (
     <div className="mapContainer">
-      <h1>Jestem mapą</h1>
       <MapWrapper />
     </div>
   );
 };
 
-export default MapContainer;
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyAGnzKbqsq9u1BjIswxPr6p5SveDtx7H20"
+}) (MapContainer);
