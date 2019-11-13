@@ -1,15 +1,46 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppState } from "../../context/context";
 
 import Container from "@material-ui/core/Container";
+import { useInterval } from "./setInterval";
+import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
+
+const styles = {
+  textAlign: "center"
+}
 
 export interface MenuProps {}
 const Menu: React.SFC<MenuProps> = () => {
   const AppState = useAppState();
   const dispatch = useAppDispatch();
 
+  const startTime = Date.now() - AppState.runningTime;
+
+  const onLocationRead = () => {
+    dispatch({ type: "COUNT", payload: Date.now() - startTime });
+    const transformedPosition = {
+      lat: AppState.currentPosition.latitude,
+      lng: AppState.currentPosition.longitude
+    };
+    dispatch({ type: "MAP_POSITIONS", payload: transformedPosition });
+    if (AppState.mappedPositions.length > 1) {
+      const positionOne =
+        AppState.mappedPositions[AppState.mappedPositions.length - 2];
+      const positionTwo =
+        AppState.mappedPositions[AppState.mappedPositions.length - 1];
+      return distanceCounter(positionOne, positionTwo);
+    } else {
+      const positionOne = { lat: 0, lng: 0 };
+      const positionTwo = { lat: 0, lng: 0 };
+      return distanceCounter(positionOne, positionTwo);
+    }
+  };
+  useInterval(onLocationRead, 1000, AppState.countingStarted);
+
   //Watching for changing position.
   useEffect(() => {
+    let watchId = 0;
     if (navigator.geolocation) {
       const options = {
         enableHighAccuracy: true,
@@ -23,44 +54,17 @@ const Menu: React.SFC<MenuProps> = () => {
       const error = (err: any) => {
         console.warn(`ERROR(${err.code}): ${err.message}`);
       };
-      navigator.geolocation.watchPosition(success, error, options);
+      watchId = navigator.geolocation.watchPosition(success, error, options);
     } else {
       console.log(
         "Something get wrong, geolocation is disabled, or your browser is not supporting it"
       );
     }
+    return () => navigator.geolocation.clearWatch(watchId);
   }, [dispatch]);
 
-  const timerIdRef: any = useRef(null);
-
   const handleToggle = () => {
-    clearInterval(timerIdRef.current);
-    if (AppState.countingStarted) {
-      dispatch({ type: "COUNTING_STARTED", payload: false });
-    } else {
-      const startTime = Date.now() - AppState.runningTime;
-      timerIdRef.current = setInterval(() => {
-        dispatch({ type: "COUNT", payload: Date.now() - startTime });
-        const transformedPosition = {
-          lat: AppState.currentPosition.latitude,
-          lng: AppState.currentPosition.longitude
-        };
-        dispatch({ type: "MAP_POSITIONS", payload: transformedPosition });
-
-        if (AppState.mappedPositions.length > 1) {
-          const positionOne =
-            AppState.mappedPositions[AppState.mappedPositions.length - 2];
-          const positionTwo =
-            AppState.mappedPositions[AppState.mappedPositions.length - 1];
-          return distanceCounter(positionOne, positionTwo);
-        } else {
-          const positionOne = { latitude: 0, longitude: 0 };
-          const positionTwo = { latitude: 0, longitude: 0 };
-          return distanceCounter(positionOne, positionTwo);
-        }
-      }, 1000);
-      dispatch({ type: "COUNTING_STARTED", payload: true });
-    }
+    dispatch({ type: "COUNTING_STARTED", payload: !AppState.countingStarted });
   };
 
   const timerValue = (
@@ -74,10 +78,10 @@ const Menu: React.SFC<MenuProps> = () => {
   );
 
   const distanceCounter = (positionOne: any, positionTwo: any) => {
-    const lat1 = positionOne.latitude;
-    const lon1 = positionOne.longitude;
-    const lat2 = positionTwo.latitude;
-    const lon2 = positionTwo.longitude;
+    const lat1 = positionOne.lat;
+    const lon1 = positionOne.lng;
+    const lat2 = positionTwo.lat;
+    const lon2 = positionTwo.lng;
     let R = 6371; // Radius of the earth in km
     let dLat = deg2rad(lat2 - lat1); // deg2rad below
     let dLon = deg2rad(lon2 - lon1);
@@ -94,29 +98,33 @@ const Menu: React.SFC<MenuProps> = () => {
       return deg * (Math.PI / 180);
     }
 
-    console.log(d);
     return dispatch({ type: "MAP_DISTANCE", payload: d });
   };
 
   return (
-    <div className="mapContainer">
+    <div className="mapContainer" style={{ textAlign: "center", background: "lightgray" }}>
       <Container maxWidth="sm">
-        <h1>Menu</h1>
-        Coords:
-        <ul>
-          <li>Latitude: {AppState.currentPosition.latitude}</li>
-          <li>Longitude: {AppState.currentPosition.longitude}</li>
-          <li>Accuracy: {Math.floor(AppState.currentPosition.accuracy)}m</li>
-          <li>Current speed: {AppState.currentPosition.speed}</li>
-          <li>Current distance: {AppState.distance}</li>
-        </ul>{" "}
-        <button onClick={handleToggle}>
+        <Typography  variant="h6" component="h4">
+        Your coordinates provided by geolocation:
+          <ul>
+            <li>Latitude: {AppState.currentPosition.latitude}</li>
+            <li>Longitude: {AppState.currentPosition.longitude}</li>
+            <li>Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m</li>
+            <li>
+              Current speed:{" "}
+              {AppState.currentPosition.speed
+                ? AppState.currentPosition.speed
+                : "-"}
+            </li>
+            <li>Current distance: {Math.floor(AppState.distance * 1000)}m</li>
+          </ul>{" "}
+        </Typography>
+        <Button color="primary" variant="contained" onClick={handleToggle}>
           {AppState.countingStarted ? "Stop" : "Start"}
-        </button>
-        {timerValue}
-        <button onClick={() => console.log(AppState.mappedPositions)}>
-          PUP!
-        </button>
+        </Button>
+        <Typography variant="h5" component="h3">
+          {timerValue}
+        </Typography>
       </Container>
     </div>
   );

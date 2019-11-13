@@ -2,17 +2,8 @@ import React from "react";
 
 import Menu from "./components/menu/Menu";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import MapContainer from "./components/map/MapContainer";
-import { Container } from "@material-ui/core";
-
-const useStyles = makeStyles({
-  list: {
-    width: 250
-  }
-});
+import { Drawer, Button, Container } from "@material-ui/core";
 
 export default function App() {
   // const classes = useStyles();
@@ -32,7 +23,7 @@ export default function App() {
 
   return (
     <>
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" style={{ textAlign: "center", background: "gray" }}>
         <Button
           // style={{ position: "absolute", zIndex: 4 }}
           onClick={toggleDrawer("bottom", true)}

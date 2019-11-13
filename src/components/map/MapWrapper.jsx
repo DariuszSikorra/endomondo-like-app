@@ -10,7 +10,7 @@ export const MapWrapper = () => {
     <div className="mapWrapper">
       <Map
         google={window.google}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "95%" }}
         className={"map"}
         zoom={14}
         initialCenter={{
