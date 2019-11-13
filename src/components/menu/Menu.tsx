@@ -4,13 +4,14 @@ import { useAppDispatch, useAppState } from "../../context/context";
 import Container from "@material-ui/core/Container";
 import { useInterval } from "./setInterval";
 import Button from "@material-ui/core/Button";
-import { Typography, ButtonGroup } from "@material-ui/core";
-
+import { Typography, ButtonGroup, Drawer, ListItem, List } from "@material-ui/core";
 
 export interface MenuProps {}
 const Menu: React.SFC<MenuProps> = () => {
   const AppState = useAppState();
   const dispatch = useAppDispatch();
+
+
 
   const startTime = Date.now() - AppState.runningTime;
 
@@ -99,43 +100,54 @@ const Menu: React.SFC<MenuProps> = () => {
   };
 
   return (
-    <div
-      className="mapContainer"
-      style={{ textAlign: "center", background: "lightgray" }}
+    <Drawer
+      anchor="bottom"
+      open={AppState.openTab}
+      onClose={() =>
+        dispatch({ type: "TOGGLE_TAB", payload: !AppState.openTab })
+      }
     >
-      <Container maxWidth="sm">
-        <Typography variant="h6" component="h4">
-          Your coordinates provided by geolocation:
-          <ul>
-            <li>Latitude: {AppState.currentPosition.latitude}</li>
-            <li>Longitude: {AppState.currentPosition.longitude}</li>
-            <li>Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m</li>
-            <li>
-              Current speed:{" "}
-              {AppState.currentPosition.speed
-                ? Math.floor(AppState.currentPosition.speed * 1000 / 60)+"km/h"
-                : "-"}
-            </li>
-            <li>Current distance: {Math.floor(AppState.distance * 1000)}m</li>
-          </ul>{" "}
-        </Typography>
-        <Typography color="primary" variant="h5" component="h3">
-          {timerValue}
-        </Typography>
-        <ButtonGroup color="primary" variant="contained">
-          <Button onClick={handleToggle}>
-            {AppState.countingStarted ? "Stop" : "Start"}
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => dispatch({ type: "RESET" })}
-          >
-            Reset
-          </Button>
-        </ButtonGroup>
-      </Container>
-    </div>
+      <div
+        className="mapContainer"
+        style={{ textAlign: "center", background: "lightgray" }}
+      >
+        <Container maxWidth="sm">
+          <Typography variant="h6" component="h4">
+            Your coordinates provided by geolocation:
+            <List>
+              <ListItem>Latitude: {AppState.currentPosition.latitude}</ListItem>
+            <ListItem>Longitude: {AppState.currentPosition.longitude}</ListItem>
+              <ListItem>
+                Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m
+              </ListItem>
+              <ListItem>
+                Current speed:{" "}
+                {AppState.currentPosition.speed
+                  ? Math.floor((AppState.currentPosition.speed * 1000) / 60) +
+                    "km/h"
+                  : "-"}
+              </ListItem>
+              <ListItem>Current distance: {Math.floor(AppState.distance * 1000)}m</ListItem>
+            </List>
+          </Typography>
+          <Typography color="primary" variant="h5" component="h3">
+            {timerValue}
+          </Typography>
+          <ButtonGroup color="primary" variant="contained">
+            <Button onClick={handleToggle}>
+              {AppState.countingStarted ? "Stop" : "Start"}
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => dispatch({ type: "RESET" })}
+            >
+              Reset
+            </Button>
+          </ButtonGroup>
+        </Container>
+      </div>
+    </Drawer>
   );
 };
 

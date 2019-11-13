@@ -13,6 +13,7 @@ export type AppState = {
   runningTime: number;
   mappedPositions: Array<Coords>;
   distance: number;
+  openTab: boolean;
 };
 export type Coords = {
   accuracy: number;
@@ -33,6 +34,7 @@ const AppProvider: React.SFC<AppProviderProps> = ({
     runningTime: 0,
     mappedPositions: [],
     distance: 0,
+    openTab: false,
   });
   return (
     <AppStateContext.Provider value={AppState}>

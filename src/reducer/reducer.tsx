@@ -6,7 +6,8 @@ type Action =
   | { type: "COUNTING_STARTED"; payload: any }
   | { type: "COUNT"; payload: number }
   | { type: "MAP_DISTANCE"; payload: number }
-  | { type: "RESET" };
+  | { type: "RESET" }
+  | { type: "TOGGLE_TAB", payload: boolean};
 
 export type Dispatch = (action: Action) => void;
 
@@ -31,6 +32,11 @@ export const reducer = (state: AppState, action: Action) => {
         mappedPositions: [],
         distance: 0
       };
+      case  "TOGGLE_TAB": 
+      return {
+        ...state,
+        openTab: action.payload
+      }
     default:
       return state;
   }
