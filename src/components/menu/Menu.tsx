@@ -4,11 +4,8 @@ import { useAppDispatch, useAppState } from "../../context/context";
 import Container from "@material-ui/core/Container";
 import { useInterval } from "./setInterval";
 import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
+import { Typography, ButtonGroup } from "@material-ui/core";
 
-const styles = {
-  textAlign: "center"
-}
 
 export interface MenuProps {}
 const Menu: React.SFC<MenuProps> = () => {
@@ -102,10 +99,13 @@ const Menu: React.SFC<MenuProps> = () => {
   };
 
   return (
-    <div className="mapContainer" style={{ textAlign: "center", background: "lightgray" }}>
+    <div
+      className="mapContainer"
+      style={{ textAlign: "center", background: "lightgray" }}
+    >
       <Container maxWidth="sm">
-        <Typography  variant="h6" component="h4">
-        Your coordinates provided by geolocation:
+        <Typography variant="h6" component="h4">
+          Your coordinates provided by geolocation:
           <ul>
             <li>Latitude: {AppState.currentPosition.latitude}</li>
             <li>Longitude: {AppState.currentPosition.longitude}</li>
@@ -113,18 +113,27 @@ const Menu: React.SFC<MenuProps> = () => {
             <li>
               Current speed:{" "}
               {AppState.currentPosition.speed
-                ? AppState.currentPosition.speed
+                ? Math.floor(AppState.currentPosition.speed * 1000 / 60)+"km/h"
                 : "-"}
             </li>
             <li>Current distance: {Math.floor(AppState.distance * 1000)}m</li>
           </ul>{" "}
         </Typography>
-        <Button color="primary" variant="contained" onClick={handleToggle}>
-          {AppState.countingStarted ? "Stop" : "Start"}
-        </Button>
-        <Typography variant="h5" component="h3">
+        <Typography color="primary" variant="h5" component="h3">
           {timerValue}
         </Typography>
+        <ButtonGroup color="primary" variant="contained">
+          <Button onClick={handleToggle}>
+            {AppState.countingStarted ? "Stop" : "Start"}
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => dispatch({ type: "RESET" })}
+          >
+            Reset
+          </Button>
+        </ButtonGroup>
       </Container>
     </div>
   );

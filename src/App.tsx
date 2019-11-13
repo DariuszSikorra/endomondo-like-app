@@ -23,9 +23,8 @@ export default function App() {
 
   return (
     <>
-      <Container maxWidth="sm" style={{ textAlign: "center", background: "gray" }}>
+      <Container style={{ textAlign: "center", background: "gray" }}>
         <Button
-          // style={{ position: "absolute", zIndex: 4 }}
           onClick={toggleDrawer("bottom", true)}
           variant="contained"
           color="primary"
