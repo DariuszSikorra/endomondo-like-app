@@ -116,6 +116,7 @@ const Menu: React.SFC<MenuProps> = () => {
 
   return (
     <SwipeableDrawer
+      variant="persistent"
       anchor="bottom"
       open={AppState.openTab}
       onClose={() =>

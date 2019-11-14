@@ -50,8 +50,8 @@ const App: React.FC = () => {
           <Typography variant="h6">endomondo-like app</Typography>
         </Toolbar>
       </AppBar>
-      <Menu />
       <MapContainer />
+      <Menu />
     </>
   );
 };
