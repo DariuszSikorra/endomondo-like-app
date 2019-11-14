@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "948e9427c8ccbd866bef82ec7b1e3aa4",
+    "revision": "a6d4f3b7554263ecc4f31be315fd67f3",
     "url": "/endomondo-like-app/index.html"
   },
   {
-    "revision": "d3ef6b5a83af973727d9",
+    "revision": "b6e39ed973c238f19414",
     "url": "/endomondo-like-app/static/css/main.bb3ed7ad.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/endomondo-like-app/static/js/2.4a8900e8.chunk.js"
   },
   {
-    "revision": "d3ef6b5a83af973727d9",
-    "url": "/endomondo-like-app/static/js/main.3a23bfbd.chunk.js"
+    "revision": "b6e39ed973c238f19414",
+    "url": "/endomondo-like-app/static/js/main.4cf281a6.chunk.js"
   },
   {
     "revision": "5b1c0c4d3317d3209e40",
