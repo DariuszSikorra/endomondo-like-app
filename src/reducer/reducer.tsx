@@ -1,18 +1,21 @@
 import { AppState } from "../context/context";
 
 type Action =
+  | { type: "RESET"; payload: AppState }
   | { type: "CURRENT_POSITION"; payload: any }
   | { type: "MAP_POSITIONS"; payload: any }
   | { type: "COUNTING_STARTED"; payload: any }
   | { type: "COUNT"; payload: number }
   | { type: "MAP_DISTANCE"; payload: number }
-  | { type: "RESET" }
-  | { type: "TOGGLE_TAB", payload: boolean};
+  | { type: "RESET_BUTTON" }
+  | { type: "TOGGLE_TAB"; payload: boolean };
 
 export type Dispatch = (action: Action) => void;
 
 export const reducer = (state: AppState, action: Action) => {
   switch (action.type) {
+    case "RESET":
+      return action.payload;
     case "CURRENT_POSITION":
       return { ...state, currentPosition: action.payload };
     case "MAP_POSITIONS":
@@ -24,7 +27,7 @@ export const reducer = (state: AppState, action: Action) => {
       return { ...state, runningTime: action.payload };
     case "MAP_DISTANCE":
       return { ...state, distance: state.distance + action.payload };
-    case "RESET":
+    case "RESET_BUTTON":
       return {
         ...state,
         countingStarted: false,
@@ -32,11 +35,11 @@ export const reducer = (state: AppState, action: Action) => {
         mappedPositions: [],
         distance: 0
       };
-      case  "TOGGLE_TAB": 
+    case "TOGGLE_TAB":
       return {
         ...state,
         openTab: action.payload
-      }
+      };
     default:
       return state;
   }

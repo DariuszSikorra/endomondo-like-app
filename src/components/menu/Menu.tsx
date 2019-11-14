@@ -4,24 +4,31 @@ import { useAppDispatch, useAppState } from "../../context/context";
 import Container from "@material-ui/core/Container";
 import { useInterval } from "./setInterval";
 import Button from "@material-ui/core/Button";
-import { Typography, ButtonGroup, Drawer, ListItem, List } from "@material-ui/core";
+import {
+  Typography,
+  ButtonGroup,
+  Drawer,
+  ListItem,
+  List
+} from "@material-ui/core";
 
 export interface MenuProps {}
 const Menu: React.SFC<MenuProps> = () => {
   const AppState = useAppState();
   const dispatch = useAppDispatch();
 
-
-
   const startTime = Date.now() - AppState.runningTime;
 
   const onLocationRead = () => {
+    //Time counter
     dispatch({ type: "COUNT", payload: Date.now() - startTime });
+    //Pushing new coords to positions array
     const transformedPosition = {
       lat: AppState.currentPosition.latitude,
       lng: AppState.currentPosition.longitude
     };
     dispatch({ type: "MAP_POSITIONS", payload: transformedPosition });
+    //Continuously assigning last two coords from positions array to distance equation
     if (AppState.mappedPositions.length > 1) {
       const positionOne =
         AppState.mappedPositions[AppState.mappedPositions.length - 2];
@@ -35,6 +42,31 @@ const Menu: React.SFC<MenuProps> = () => {
     }
   };
   useInterval(onLocationRead, 1000, AppState.countingStarted);
+
+  //Distance equation
+  const distanceCounter = (positionOne: any, positionTwo: any) => {
+    const lat1 = positionOne.lat;
+    const lon1 = positionOne.lng;
+    const lat2 = positionTwo.lat;
+    const lon2 = positionTwo.lng;
+    let R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2 - lat1);
+    let dLon = deg2rad(lon2 - lon1);
+    let a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c; // Distance in km
+
+    function deg2rad(deg: number) {
+      return deg * (Math.PI / 180);
+    }
+
+    return dispatch({ type: "MAP_DISTANCE", payload: d });
+  };
 
   //Watching for changing position.
   useEffect(() => {
@@ -61,10 +93,12 @@ const Menu: React.SFC<MenuProps> = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, [dispatch]);
 
+  //Toggle time counter button
   const handleToggle = () => {
     dispatch({ type: "COUNTING_STARTED", payload: !AppState.countingStarted });
   };
 
+  //Simple timer transformations
   const timerValue = (
     <div>
       <span>{Math.floor((AppState.runningTime / 1000 / 60) << 0)}</span>:
@@ -75,28 +109,8 @@ const Menu: React.SFC<MenuProps> = () => {
     </div>
   );
 
-  const distanceCounter = (positionOne: any, positionTwo: any) => {
-    const lat1 = positionOne.lat;
-    const lon1 = positionOne.lng;
-    const lat2 = positionTwo.lat;
-    const lon2 = positionTwo.lng;
-    let R = 6371; // Radius of the earth in km
-    let dLat = deg2rad(lat2 - lat1); // deg2rad below
-    let dLon = deg2rad(lon2 - lon1);
-    let a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c; // Distance in km
-
-    function deg2rad(deg: number) {
-      return deg * (Math.PI / 180);
-    }
-
-    return dispatch({ type: "MAP_DISTANCE", payload: d });
+  const listItemStyle = {
+    padding: 0
   };
 
   return (
@@ -115,19 +129,25 @@ const Menu: React.SFC<MenuProps> = () => {
           <Typography variant="h6" component="h4">
             Your coordinates provided by geolocation:
             <List>
-              <ListItem>Latitude: {AppState.currentPosition.latitude}</ListItem>
-            <ListItem>Longitude: {AppState.currentPosition.longitude}</ListItem>
-              <ListItem>
+              {/* <ListItem style={listItemStyle}>
+                Latitude: {AppState.currentPosition.latitude}
+              </ListItem>
+              <ListItem style={listItemStyle}>
+                Longitude: {AppState.currentPosition.longitude}
+              </ListItem> */}
+              <ListItem style={listItemStyle}>
                 Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m
               </ListItem>
-              <ListItem>
+              <ListItem style={listItemStyle}>
                 Current speed:{" "}
                 {AppState.currentPosition.speed
                   ? Math.floor((AppState.currentPosition.speed * 1000) / 60) +
                     "km/h"
                   : "-"}
               </ListItem>
-              <ListItem>Current distance: {Math.floor(AppState.distance * 1000)}m</ListItem>
+              <ListItem style={listItemStyle}>
+                Current distance: {Math.floor(AppState.distance * 1000)}m
+              </ListItem>
             </List>
           </Typography>
           <Typography color="primary" variant="h5" component="h3">
@@ -135,15 +155,17 @@ const Menu: React.SFC<MenuProps> = () => {
           </Typography>
           <ButtonGroup color="primary" variant="contained">
             <Button onClick={handleToggle}>
-              {AppState.countingStarted ? "Stop" : "Start"}
+              {AppState.countingStarted ? "Pause" : "Start"}
             </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => dispatch({ type: "RESET" })}
-            >
-              Reset
-            </Button>
+            {!AppState.countingStarted && (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => dispatch({ type: "RESET_BUTTON" })}
+              >
+                Reset
+              </Button>
+            )}
           </ButtonGroup>
         </Container>
       </div>

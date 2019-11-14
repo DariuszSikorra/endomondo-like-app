@@ -4,11 +4,19 @@ import Menu from "./components/menu/Menu";
 import MapContainer from "./components/map/MapContainer";
 
 import { Button, Container } from "@material-ui/core";
-import { useAppState, useAppDispatch } from "./context/context";
+import { AppState, useAppState, useAppDispatch } from "./context/context";
+import useStateInLocalStorage from "./localStorage/localStorage";
 
-export default function App() {
+const App: React.FC = () => {
   const AppState = useAppState();
   const dispatch = useAppDispatch();
+
+  useStateInLocalStorage({
+    state: useAppState(),
+    name: "data",
+    initializeFn: (state: AppState) =>
+      dispatch({ type: "RESET", payload: state })
+  });
 
   return (
     <>
@@ -27,4 +35,5 @@ export default function App() {
       <MapContainer />
     </>
   );
-}
+};
+export default App;
