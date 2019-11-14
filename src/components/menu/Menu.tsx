@@ -1,19 +1,24 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppState } from "../../context/context";
-
-import Container from "@material-ui/core/Container";
 import { useInterval } from "./setInterval";
 import Button from "@material-ui/core/Button";
 import {
   Typography,
   ButtonGroup,
-  Drawer,
-  ListItem,
-  List
+  SwipeableDrawer,
+  Grid,
+  makeStyles
 } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  verticalPadding: {
+    padding: theme.spacing(1, 0)
+  }
+}));
 
 export interface MenuProps {}
 const Menu: React.SFC<MenuProps> = () => {
+  const classes = useStyles();
   const AppState = useAppState();
   const dispatch = useAppDispatch();
 
@@ -109,67 +114,63 @@ const Menu: React.SFC<MenuProps> = () => {
     </div>
   );
 
-  const listItemStyle = {
-    padding: 0
-  };
-
   return (
-    <Drawer
+    <SwipeableDrawer
       anchor="bottom"
       open={AppState.openTab}
       onClose={() =>
         dispatch({ type: "TOGGLE_TAB", payload: !AppState.openTab })
       }
+      onOpen={() =>
+        dispatch({ type: "TOGGLE_TAB", payload: !AppState.openTab })
+      }
     >
-      <div
-        className="mapContainer"
-        style={{ textAlign: "center", background: "lightgray" }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="h6" component="h4">
-            Your coordinates provided by geolocation:
-            <List>
-              {/* <ListItem style={listItemStyle}>
-                Latitude: {AppState.currentPosition.latitude}
-              </ListItem>
-              <ListItem style={listItemStyle}>
-                Longitude: {AppState.currentPosition.longitude}
-              </ListItem> */}
-              <ListItem style={listItemStyle}>
-                Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m
-              </ListItem>
-              <ListItem style={listItemStyle}>
-                Current speed:{" "}
-                {AppState.currentPosition.speed
-                  ? Math.floor((AppState.currentPosition.speed * 1000) / 60) +
-                    "km/h"
-                  : "-"}
-              </ListItem>
-              <ListItem style={listItemStyle}>
-                Current distance: {Math.floor(AppState.distance * 1000)}m
-              </ListItem>
-            </List>
-          </Typography>
-          <Typography color="primary" variant="h5" component="h3">
-            {timerValue}
-          </Typography>
-          <ButtonGroup color="primary" variant="contained">
-            <Button onClick={handleToggle}>
-              {AppState.countingStarted ? "Pause" : "Start"}
-            </Button>
-            {!AppState.countingStarted && (
-              <Button
+      <Grid container justify="center" className={classes.verticalPadding}>
+        <Grid item>
+          <Grid container direction="column">
+            <Grid item>
+              Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m
+            </Grid>
+            <Grid item>
+              Current speed:{" "}
+              {AppState.currentPosition.speed
+                ? Math.floor((AppState.currentPosition.speed * 1000) / 60) +
+                  "km/h"
+                : "-"}
+            </Grid>
+            <Grid item>
+              Current distance: {Math.floor(AppState.distance * 1000)}m
+            </Grid>
+            <Grid item>
+              <Typography
                 color="primary"
-                variant="contained"
-                onClick={() => dispatch({ type: "RESET_BUTTON" })}
+                variant="h5"
+                component="h3"
+                align="center"
               >
-                Reset
-              </Button>
-            )}
-          </ButtonGroup>
-        </Container>
-      </div>
-    </Drawer>
+                {timerValue}
+              </Typography>
+            </Grid>
+            <Grid container item justify="center">
+              <ButtonGroup color="primary" variant="contained">
+                <Button onClick={handleToggle}>
+                  {AppState.countingStarted ? "Pause" : "Start"}
+                </Button>
+                {!AppState.countingStarted && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => dispatch({ type: "RESET_BUTTON" })}
+                  >
+                    Reset
+                  </Button>
+                )}
+              </ButtonGroup>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </SwipeableDrawer>
   );
 };
 

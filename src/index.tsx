@@ -7,7 +7,7 @@ import { AppProvider } from "./context/context";
 
 ReactDOM.render(
   <AppProvider>
-    <App />{" "}
+    <App />
   </AppProvider>,
   document.getElementById("root")
 );

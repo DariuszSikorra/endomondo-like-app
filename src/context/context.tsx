@@ -1,7 +1,8 @@
 import React from "react";
 import { reducer } from "../reducer/reducer";
-import { Dispatch} from "../reducer/reducer";
-
+import { Dispatch } from "../reducer/reducer";
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
 
 export type AppProviderProps = {
   children: React.ReactNode;
@@ -22,6 +23,14 @@ export type Coords = {
   speed: number;
 };
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#6eb63c"
+    }
+  }
+});
+
 const AppStateContext = React.createContext<AppState | undefined>(undefined);
 const AppDispatchContext = React.createContext<Dispatch | undefined>(undefined);
 
@@ -34,14 +43,16 @@ const AppProvider: React.SFC<AppProviderProps> = ({
     runningTime: 0,
     mappedPositions: [],
     distance: 0,
-    openTab: false,
+    openTab: false
   });
   return (
-    <AppStateContext.Provider value={AppState}>
-      <AppDispatchContext.Provider value={dispatch}>
-        {children}
-      </AppDispatchContext.Provider>
-    </AppStateContext.Provider>
+    <ThemeProvider theme={theme}>
+      <AppStateContext.Provider value={AppState}>
+        <AppDispatchContext.Provider value={dispatch}>
+          {children}
+        </AppDispatchContext.Provider>
+      </AppStateContext.Provider>
+    </ThemeProvider>
   );
 };
 
