@@ -10,6 +10,7 @@ export type AppProviderProps = {
 
 export type AppState = {
   currentPosition: Coords;
+  zoom: number;
   countingStarted: boolean;
   runningTime: number;
   mappedPositions: Array<Coords>;
@@ -38,7 +39,8 @@ const AppProvider: React.SFC<AppProviderProps> = ({
   children
 }: AppProviderProps) => {
   const [AppState, dispatch] = React.useReducer(reducer, {
-    currentPosition: {},
+    currentPosition: { lat: 52.834357, lng: 18.688854},
+    zoom: 5,
     countingStarted: false,
     runningTime: 0,
     mappedPositions: [],

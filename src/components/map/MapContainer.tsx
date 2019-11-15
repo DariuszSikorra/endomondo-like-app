@@ -3,9 +3,11 @@ import { GoogleApiWrapper } from "google-maps-react";
 import { Map, Polyline, Marker } from "google-maps-react";
 import { useAppState } from "../../context/context";
 import { makeStyles } from "@material-ui/styles";
+import LoadingContainer from "./LoadingContainer";
 
 const AnyMap = Map as any;
 
+//@ts-ignore
 const useStyles = makeStyles(theme => ({
   fullScreen: {
     position: "relative",
@@ -19,6 +21,7 @@ const MapContainer = () => {
   return (
     <div className={classes.fullScreen}>
       <AnyMap
+        //@ts-ignore
         google={window.google}
         zoom={14}
         initialCenter={{
@@ -45,5 +48,6 @@ const MapContainer = () => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCemKeklp6hKhbSOQk6YJpOhCwNKPeIVsc"
+  apiKey: "AIzaSyCQk5RqoYs2aXAYH_BMwW41-tiLH23Ei6w",
+  LoadingContainer: LoadingContainer
 })(MapContainer);

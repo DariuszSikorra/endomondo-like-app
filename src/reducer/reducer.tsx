@@ -17,7 +17,7 @@ export const reducer = (state: AppState, action: Action) => {
     case "RESET":
       return action.payload;
     case "CURRENT_POSITION":
-      return { ...state, currentPosition: action.payload };
+      return { ...state, currentPosition: action.payload, zoom: 14 };
     case "MAP_POSITIONS":
       const newMappedPositions = state.mappedPositions.concat(action.payload);
       return { ...state, mappedPositions: newMappedPositions };

@@ -8,15 +8,23 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  makeStyles
+  makeStyles,
+  Link
 } from "@material-ui/core";
 import { AppState, useAppState, useAppDispatch } from "./context/context";
 import useStateInLocalStorage from "./localStorage/localStorage";
 import MenuIcon from "@material-ui/icons/Menu";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
   menuButton: {
     marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
   }
 }));
 
@@ -33,9 +41,9 @@ const App: React.FC = () => {
   });
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.root}>
+        <Toolbar className={classes.root}>
           <IconButton
             edge="start"
             color="inherit"
@@ -47,12 +55,19 @@ const App: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">endomondo-like app</Typography>
+          <Typography variant="h6" className={classes.title}>
+            endomondo-like app
+          </Typography>
+          <Link href="https://github.com/DariuszSikorra/endomondo-like-app">
+            <IconButton edge="end">
+              <GitHubIcon />
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
       <MapContainer />
       <Menu />
-    </>
+    </div>
   );
 };
 export default App;
