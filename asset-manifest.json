@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/endomondo-like-app/static/css/main.bb3ed7ad.chunk.css",
-    "main.js": "/endomondo-like-app/static/js/main.1dc09b7c.chunk.js",
-    "main.js.map": "/endomondo-like-app/static/js/main.1dc09b7c.chunk.js.map",
+    "main.js": "/endomondo-like-app/static/js/main.b0f51114.chunk.js",
+    "main.js.map": "/endomondo-like-app/static/js/main.b0f51114.chunk.js.map",
     "runtime-main.js": "/endomondo-like-app/static/js/runtime-main.57b6efac.js",
     "runtime-main.js.map": "/endomondo-like-app/static/js/runtime-main.57b6efac.js.map",
     "static/js/2.3716b32c.chunk.js": "/endomondo-like-app/static/js/2.3716b32c.chunk.js",
     "static/js/2.3716b32c.chunk.js.map": "/endomondo-like-app/static/js/2.3716b32c.chunk.js.map",
     "index.html": "/endomondo-like-app/index.html",
-    "precache-manifest.6bec67ec4e512728c5cd91949be65a94.js": "/endomondo-like-app/precache-manifest.6bec67ec4e512728c5cd91949be65a94.js",
+    "precache-manifest.c664a628b660a3a9c2da704cab78e16a.js": "/endomondo-like-app/precache-manifest.c664a628b660a3a9c2da704cab78e16a.js",
     "service-worker.js": "/endomondo-like-app/service-worker.js",
     "static/css/main.bb3ed7ad.chunk.css.map": "/endomondo-like-app/static/css/main.bb3ed7ad.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.57b6efac.js",
     "static/js/2.3716b32c.chunk.js",
     "static/css/main.bb3ed7ad.chunk.css",
-    "static/js/main.1dc09b7c.chunk.js"
+    "static/js/main.b0f51114.chunk.js"
   ]
 }
