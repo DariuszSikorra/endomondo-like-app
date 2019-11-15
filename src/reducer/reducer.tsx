@@ -3,6 +3,7 @@ import { AppState } from "../context/context";
 type Action =
   | { type: "RESET"; payload: AppState }
   | { type: "CURRENT_POSITION"; payload: any }
+  | { type: "USER_DENIAL" }
   | { type: "MAP_POSITIONS"; payload: any }
   | { type: "COUNTING_STARTED"; payload: any }
   | { type: "COUNT"; payload: number }
@@ -17,7 +18,18 @@ export const reducer = (state: AppState, action: Action) => {
     case "RESET":
       return action.payload;
     case "CURRENT_POSITION":
-      return { ...state, currentPosition: action.payload, zoom: 14 };
+      return {
+        ...state,
+        currentPosition: action.payload,
+        userPermission: true,
+        zoom: 14
+      };
+    case "USER_DENIAL":
+      return {
+        ...state,
+        currentPosition: { lat: 52.834357, lng: 18.688854 },
+        userPermission: false
+      };
     case "MAP_POSITIONS":
       const newMappedPositions = state.mappedPositions.concat(action.payload);
       return { ...state, mappedPositions: newMappedPositions };

@@ -9,7 +9,8 @@ import {
   IconButton,
   Typography,
   makeStyles,
-  Link
+  Link,
+  Tooltip
 } from "@material-ui/core";
 import { AppState, useAppState, useAppDispatch } from "./context/context";
 import useStateInLocalStorage from "./localStorage/localStorage";
@@ -58,11 +59,13 @@ const App: React.FC = () => {
           <Typography variant="h6" className={classes.title}>
             endomondo-like app
           </Typography>
-          <Link href="https://github.com/DariuszSikorra/endomondo-like-app">
-            <IconButton edge="end">
-              <GitHubIcon />
-            </IconButton>
-          </Link>
+          <Tooltip title="Go to github page...">
+            <Link href="https://github.com/DariuszSikorra/endomondo-like-app">
+              <IconButton edge="end">
+                <GitHubIcon />
+              </IconButton>
+            </Link>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <MapContainer />

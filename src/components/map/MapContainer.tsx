@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
 const MapContainer = () => {
   const classes = useStyles();
   const AppState = useAppState();
+  
   return (
     <div className={classes.fullScreen}>
       <AnyMap
@@ -48,6 +49,6 @@ const MapContainer = () => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCemKeklp6hKhbSOQk6YJpOhCwNKPeIVsc",
+  apiKey: "AIzaSyB84hoVHMpUlp32uEzPI7KzWW4hvekodFE",
   LoadingContainer: LoadingContainer
 })(MapContainer);

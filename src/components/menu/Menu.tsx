@@ -8,7 +8,7 @@ import {
   Drawer,
   Grid,
   makeStyles,
-  Grow
+  Box
 } from "@material-ui/core";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import PauseRoundedIcon from "@material-ui/icons/PauseRounded";
@@ -42,6 +42,7 @@ const Menu: React.FC = () => {
       };
       const error = (err: any) => {
         console.warn(`ERROR(${err.code}): ${err.message}`);
+        dispatch({ type: "USER_DENIAL" });
       };
       watchId = navigator.geolocation.watchPosition(success, error, options);
     } else {
@@ -74,14 +75,18 @@ const Menu: React.FC = () => {
       <Grid container justify="center" className={classes.verticalPadding}>
         <Grid item>
           <Grid container direction="column">
-            <Typography variant="h6" component="h4">
-              Your coordinates provided by geolocation:
-            </Typography>
+            <Box textAlign="center">
+              <Typography variant="h6" component="h4" className="alignCenter">
+                {AppState.userPermission
+                  ? "Your coordinates provided by geolocation:"
+                  : "User rejected location sharing. User location is needed for the proper functioning of the application."}
+              </Typography>
+            </Box>
             <Grid item>
               Accuracy: ~{Math.floor(AppState.currentPosition.accuracy)}m
             </Grid>
             <Grid item>
-              Current speed:{" "}
+              Current speed:
               {AppState.currentPosition.speed
                 ? Math.floor((AppState.currentPosition.speed * 1000) / 60) +
                   "km/h"
@@ -117,15 +122,15 @@ const Menu: React.FC = () => {
                   )}
                 </Button>
               </ButtonGroup>
-                {!AppState.countingStarted && (
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => dispatch({ type: "RESET_BUTTON" })}
-                  >
-                    <StopRoundedIcon />
-                  </Button>
-                )}
+              {!AppState.countingStarted && (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() => dispatch({ type: "RESET_BUTTON" })}
+                >
+                  <StopRoundedIcon />
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Grid>
