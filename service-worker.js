@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/endomondo-like-app/precache-manifest.b8e0d01ba3c6b38fa7778b151e664ea7.js"
+  "/endomondo-like-app/precache-manifest.f9380070037d65431f77c40ed90f7f1f.js"
 );
 
 self.addEventListener('message', (event) => {
