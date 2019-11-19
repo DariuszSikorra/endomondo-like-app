@@ -27,8 +27,9 @@ export const reducer = (state: AppState, action: Action) => {
     case "USER_DENIAL":
       return {
         ...state,
-        currentPosition: { lat: 52.834357, lng: 18.688854 },
-        userPermission: false
+        currentPosition: { latitude: 52.834357, longitude: 18.688854 },
+        userPermission: false,
+        zoom: 5
       };
     case "MAP_POSITIONS":
       const newMappedPositions = state.mappedPositions.concat(action.payload);

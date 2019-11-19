@@ -40,7 +40,7 @@ const AppProvider: React.SFC<AppProviderProps> = ({
   children
 }: AppProviderProps) => {
   const [AppState, dispatch] = React.useReducer(reducer, {
-    currentPosition: {},
+    currentPosition: { lat: 52.834357, lng: 18.688854 },
     userPermission: false,
     zoom: 5,
     countingStarted: false,

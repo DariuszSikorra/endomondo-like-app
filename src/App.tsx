@@ -1,7 +1,7 @@
 import React from "react";
 
 import Menu from "./components/menu/Menu";
-import MapContainer from "./components/map/MapContainer";
+import GoogleApiWrapper from "./components/map/MapContainer";
 
 import {
   AppBar,
@@ -68,7 +68,7 @@ const App: React.FC = () => {
           </Tooltip>
         </Toolbar>
       </AppBar>
-      <MapContainer />
+      <GoogleApiWrapper />
       <Menu />
     </div>
   );

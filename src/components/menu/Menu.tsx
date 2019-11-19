@@ -88,7 +88,7 @@ const Menu: React.FC = () => {
             <Grid item>
               Current speed:
               {AppState.currentPosition.speed
-                ? Math.floor((AppState.currentPosition.speed * 1000) / 60) +
+                ? Math.floor((AppState.currentPosition.speed * 100) / 60) +
                   "km/h"
                 : "-"}
             </Grid>

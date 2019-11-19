@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MapContainer = () => {
+const MapContainer = (props: any) => {
   const classes = useStyles();
   const AppState = useAppState();
   
@@ -23,20 +23,20 @@ const MapContainer = () => {
     <div className={classes.fullScreen}>
       <AnyMap
         //@ts-ignore
-        google={window.google}
-        zoom={14}
+        google={props.google}
+        zoom={AppState.zoom}
         initialCenter={{
           lat: AppState.currentPosition.latitude,
           lng: AppState.currentPosition.longitude
         }}
       >
-        <Marker
-          title={"The marker`s title will appear as a tooltip."}
+        {AppState.userPermission ? <Marker
+          title={"You are here!"}
           position={{
             lat: AppState.currentPosition.latitude,
             lng: AppState.currentPosition.longitude
           }}
-        />
+        /> : undefined}
         <Polyline
           path={AppState.mappedPositions}
           strokeColor="#0000FF"
